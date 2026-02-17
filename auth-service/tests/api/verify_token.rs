@@ -5,7 +5,7 @@ use serde_json::json;
 async fn verify_token_returns_http_200_status() {
     let app = TestApp::new().await;
 
-    let response = app.post_verify_token(json!({
+    let response = app.post_verify_token(&json!({
         "token": "string"
     })).await;
 

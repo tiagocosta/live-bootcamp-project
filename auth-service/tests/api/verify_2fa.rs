@@ -5,7 +5,7 @@ use serde_json::json;
 async fn verify_2fa_returns_http_200_status() {
     let app = TestApp::new().await;
 
-    let response = app.post_verify_2fa(json!({
+    let response = app.post_verify_2fa(&json!({
         "email": "user@example.com",
         "loginAttemptId": "string",
         "2FACode": "string"

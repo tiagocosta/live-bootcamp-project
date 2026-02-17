@@ -1,4 +1,5 @@
 use auth_service::Application;
+use uuid::Uuid;
 
 pub struct TestApp {
     pub address: String,
@@ -32,19 +33,25 @@ impl TestApp {
             .expect("Failed to execute request.")
     }
 
-    pub async fn post_signup(&self, body: serde_json::Value) -> reqwest::Response {
+    pub async fn post_signup<Body>(&self, body: &Body) -> reqwest::Response
+    where
+        Body: serde::Serialize,
+    {
         self.http_client
             .post(&format!("{}/signup", &self.address))
-            .json(&body)
+            .json(body)
             .send()
             .await
             .expect("Failed to execute request.")
     }
 
-    pub async fn post_login(&self, body: serde_json::Value) -> reqwest::Response {
+    pub async fn post_login<Body>(&self, body: &Body) -> reqwest::Response
+    where
+        Body: serde::Serialize,
+    {
         self.http_client
             .post(&format!("{}/login", &self.address))
-            .json(&body)
+            .json(body)
             .send()
             .await
             .expect("Failed to execute request.")
@@ -59,22 +66,32 @@ impl TestApp {
             .expect("Failed to execute request.")
     }
 
-    pub async fn post_verify_2fa(&self, body: serde_json::Value) -> reqwest::Response {
+    pub async fn post_verify_2fa<Body>(&self, body: &Body) -> reqwest::Response
+    where
+        Body: serde::Serialize,
+    {
         self.http_client
             .post(&format!("{}/verify-2fa", &self.address))
-            .json(&body)
+            .json(body)
             .send()
             .await
             .expect("Failed to execute request.")
     }
 
-    pub async fn post_verify_token(&self, body: serde_json::Value) -> reqwest::Response {
+    pub async fn post_verify_token<Body>(&self, body: &Body) -> reqwest::Response
+    where
+        Body: serde::Serialize,
+    {
         self.http_client
             .post(&format!("{}/verify-token", &self.address))
-            .json(&body)
+            .json(body)
             .send()
             .await
             .expect("Failed to execute request.")
     }
 
+}
+
+pub fn get_random_email() -> String {
+    format!("{}@example.com", Uuid::new_v4())
 }

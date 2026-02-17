@@ -5,7 +5,7 @@ use serde_json::json;
 async fn login_returns_http_200_status() {
     let app = TestApp::new().await;
 
-    let response = app.post_login(json!({
+    let response = app.post_login(&json!({
         "email": "user@example.com",
         "password": "string"
     })).await;
