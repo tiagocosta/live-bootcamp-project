@@ -1,5 +1,4 @@
 use crate::helpers::{TestApp, get_random_email};
-use serde_json::json;
 
 #[tokio::test]
 async fn should_return_422_if_malformed_input() {
