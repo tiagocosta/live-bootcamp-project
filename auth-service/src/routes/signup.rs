@@ -1,7 +1,7 @@
 use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use serde::{Deserialize, Serialize};
 
-use crate::{ErrorResponse, app_state::AppState, domain::{error::AuthAPIError, user::User}};
+use crate::{app_state::AppState, domain::{error::AuthAPIError, user::User}};
 
 #[derive(Deserialize)]
 pub struct SignupRequest {
@@ -32,12 +32,12 @@ pub async fn signup(
 
     let mut user_store = state.user_store.write().await;
 
-    if let Ok(_) = user_store.get_user(email) {
+    if let Ok(_) = user_store.get_user(email).await {
         return Err(AuthAPIError::UserAlreadyExists);
     }
 
     // Add `user` to the `user_store`. Simply unwrap the returned `Result` enum type for now.
-    if let Err(_) = user_store.add_user(user) {
+    if let Err(_) = user_store.add_user(user).await {
         return Err(AuthAPIError::UnexpectedError);
     }
 
